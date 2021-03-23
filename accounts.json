@@ -1,0 +1,10 @@
+{
+    "errorWebhook":"",
+    "accounts":[
+        {
+            "accnum":"",
+            "cookies":"user_id=x",
+            "webhook":""
+        }
+    ]
+}
