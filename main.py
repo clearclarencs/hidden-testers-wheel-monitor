@@ -59,15 +59,20 @@ while True:
     with open("accounts.json","r") as r:
         accounts = json.loads(r.read())["accounts"]
     if datetime.datetime.now(datetime.timezone.utc).strftime("%H") == "05":
+        success = False
         for acc in accounts:
             for i in range(3):
                 if get(acc):
+                    success = True
                     break
                 else:
                     error("Error on account "+acc["accnum"])
                     time.sleep(300)
             time.sleep(5) # account delay
-        time.sleep(82800) # wait 23 hours
+        if success:
+            time.sleep(82800) # wait 23 hours if worked
+        else:
+            time.sleep(600) # Wait 10 mins if none worked
     else:
         time.sleep(300) #5 min retry
 
