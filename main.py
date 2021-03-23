@@ -15,14 +15,14 @@ def error(message):
 def get(acc):
     try:
         acc_num = str(acc["accnum"])
-        res = requests.get(f"https://products.ahiddensociety.com/{acc_num}/", headers={"Cookie":acc["cookies"]})
+        res = requests.get("https://products.ahiddensociety.com/"+str(acc_num), headers={"Cookie":acc["cookies"]})
         game_key = res.json()["game_key"]
         if game_key == "nospins":
             return False
-        res2 = requests.get(f"https://products.ahiddensociety.com/{acc_num}/{game_key}", headers={"Cookie":acc["cookies"]})
+        res2 = requests.get("https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key), headers={"Cookie":acc["cookies"]})
         for prize in json.loads(res2.json()["json"])["segmentValuesArray"]:
             if prize["win"] == False:
-                send(prize["resultText"], acc["webhook"], f"https://products.ahiddensociety.com/{acc_num}/{game_key}")
+                send(prize["resultText"], acc["webhook"], "https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key))
                 return True
         return False # If no prize
     except Exception as e:
@@ -42,7 +42,7 @@ def send(prize, webhook, whole):
             "title": prize,
             "timestamp":datetime.datetime.now().isoformat(),
             "url": "https://products.ahiddensociety.com/wheel",
-            "description": f"||{whole}||",
+            "description": "||"+str(whole)+"||",
             "color": "16740039",
             "footer":{"text":"A Clearclarencs scraper"},
             }
