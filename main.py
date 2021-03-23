@@ -64,9 +64,9 @@ while True:
                 else:
                     error("Error on account "+acc["accnum"])
                     time.sleep(300)
-        time.sleep(82800)
+        time.sleep(82800) # wait 23 hours
     else:
-        time.sleep(60)
+        time.sleep(300) #5 min retry
 
     
     
