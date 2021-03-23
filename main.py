@@ -30,6 +30,8 @@ def get(acc):
         return False
 
 def send(prize, webhook, whole):
+    if prize == "LOSER":
+        return
     try:
         data={
             "embeds": [
@@ -64,6 +66,7 @@ while True:
                 else:
                     error("Error on account "+acc["accnum"])
                     time.sleep(300)
+            time.sleep(5) # account delay
         time.sleep(82800) # wait 23 hours
     else:
         time.sleep(300) #5 min retry
