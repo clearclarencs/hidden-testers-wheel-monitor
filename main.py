@@ -15,11 +15,12 @@ def error(message):
 def get(acc):
     try:
         acc_num = str(acc["accnum"])
-        res = requests.get("https://products.ahiddensociety.com/"+str(acc_num), headers={"Cookie":acc["cookies"]})
+        headers = {"Cookie":acc["cookies"], "user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
+        res = requests.get("https://products.ahiddensociety.com/"+str(acc_num), headers=headers)
         game_key = res.json()["game_key"]
         if game_key == "nospins":
             return False
-        res2 = requests.get("https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key), headers={"Cookie":acc["cookies"]})
+        res2 = requests.get("https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key), headers=headers)
         for prize in json.loads(res2.json()["json"])["segmentValuesArray"]:
             if prize["win"] == False:
                 send(prize["resultText"], acc["webhook"], "https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key))
