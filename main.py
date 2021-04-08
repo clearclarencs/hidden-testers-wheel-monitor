@@ -21,11 +21,9 @@ def get(acc):
         if game_key == "nospins":
             return False
         res2 = requests.get("https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key), headers=headers)
-        for prize in json.loads(res2.json()["json"])["segmentValuesArray"]:
-            if prize["win"] == False:
-                send(prize["resultText"], acc["webhook"], "https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key))
-                return True
-        return False # If no prize
+        prizeNum = int(json.loads(res2.json()["json"])["spinDestinationArray"][-1])
+        send(json.loads(res2.json()["json"])["segmentValuesArray"][prizeNum]["resultText"], acc["webhook"], "https://products.ahiddensociety.com/"+str(acc_num)+"/"+str(game_key))
+        return True
     except Exception as e:
         print(e)
         return False
